@@ -1,3 +1,4 @@
+
 # stage 1 building the code
 FROM node as builder
 WORKDIR /usr/app
@@ -14,7 +15,6 @@ RUN npm install --production
 
 COPY --from=builder /usr/app/dist ./dist
 
-COPY ormconfig.docker.json ./ormconfig.json
 
 EXPOSE 4000
 CMD node dist/src/index.js
