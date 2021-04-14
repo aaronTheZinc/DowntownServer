@@ -1,11 +1,20 @@
-import { Entity } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+import {Client} from '../models/types'
+
 
 @Entity()
-export class Photo {
+export class User extends BaseEntity {
+
+    @PrimaryGeneratedColumn()
     id!: number;
-    name!: string;
-    description!: string;
-    filename!: string;
-    views!: number;
-    isPublished?: boolean;
-}
+
+    @Column()
+    firstName!: string;
+
+    @Column()
+    lastName!: string;
+
+    @Column()
+    age!: string;
+
+} 

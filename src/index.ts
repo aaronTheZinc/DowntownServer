@@ -1,7 +1,19 @@
+import { Connection, createConnection } from "typeorm";
+import express, { Application, Request, Response } from "express";
+import { insertUser } from "./Actions/databaseActions";
+import router from "./Router/bundler";
+import ormconfig from "./ormconfig";
+import {
+  createDatabaseConnection as connect,
+  Database,
+} from "./Database/connect";
+const app: Application = express();
 
-import { createConnection } from "typeorm";
-import express, {Request, Response} from 'express'
-createConnection().then(
-  connection => console.log("Server Up And Running!", connection)
-).catch(e => console.log(e))
+const App = async () => {
+  await connect();
+  app.use("/", router);
 
+  app.listen(5000);
+};
+
+App();
