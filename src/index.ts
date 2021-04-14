@@ -13,7 +13,7 @@ const App = async () => {
   await connect();
   app.use("/", router);
 
-  app.listen(5000);
+  app.listen(5000, () => console.log('Downtown Is Listening...'));
 };
 
 App();
