@@ -1,12 +1,19 @@
+
 version: "3.7"
 services:
   db:
     image: postgres
     environment:
-      POSTGRES_PASSWORD: G+DzduqLXvSGkQ1YM+9nGMFtHtK//TRHDXe+R44yYus=
+      POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: downtown-db
     volumes:
-      - ../pgdata:/var/lib/postgresql/data
+      - ./pgdata:/var/lib/postgresql/data
     ports:
-      - "5433:5432"
+      - "5432:5432"
+  web:
+    image: server
+    depends_on:
+      - db
+    ports:
+      - "4000:5000"

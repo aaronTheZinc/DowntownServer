@@ -1,5 +1,4 @@
 import { Router, Request, Response, NextFunction } from "express";
-import ormconfig from "../../ormconfig";
 import { Connection, createConnection } from "typeorm";
 import Database from "../../Database/connect";
 

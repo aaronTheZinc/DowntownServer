@@ -1,4 +1,4 @@
-import { User } from "../entities/user";
+import { User } from "../entity/user";
 import { Client, DataInsertion } from "../models/types";
 import { Connection, getRepository } from "typeorm";
 

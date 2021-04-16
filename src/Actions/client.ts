@@ -1,7 +1,7 @@
 import { createUser, fetchClient as FetchClient } from "../Database/index";
 import { Connection } from "typeorm";
 import { Client } from "../models/types";
-import { User } from "../entities/user";
+import { User } from "../entity/user";
 
 const insertUser = async (
   connection: Connection,
