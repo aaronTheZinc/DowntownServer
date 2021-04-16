@@ -1,15 +1,18 @@
 import { Router, Request, Response, NextFunction } from "express";
 import ormconfig from "../../ormconfig";
 import { Connection, createConnection } from "typeorm";
+import Database from "../../Database/connect";
 
 const router = Router();
 
-const connect = (req: Request, res: Response, next: NextFunction, connection: Connection) => {
-  createConnection(ormconfig)
-    .then((db_connection) => {
-      connection = db_connection
+const isConnected = (req: Request, res: Response, next: NextFunction) => {
+  const { databaseConnection } = Database;
+  if (databaseConnection.connection) {
+    next();
+  } else {
+    res.json({
+    error: 'Fatal Database Connection...'
     })
-    .catch((e) => res.json({ error: e }));
+  }
 };
-
-export { connect };
+export { isConnected };

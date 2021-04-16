@@ -10,12 +10,23 @@ export interface Address {
 }
 
 export interface Client {
+  id: string,
   firstName: string;
   lastName: string;
   shop: string;
-  purchased: Array<Product>;
-  bookedMarked: Array<String>;
-  address: Address;
+  purchased: Array<string>;
+  bookedMarked?: Array<String>;
+  stripe: {
+    stripe_connect: string
+    stripe_cus: string
+  }
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    country: Countries;
+    zip: string
+  }
 }
 
 export interface Product {
@@ -32,7 +43,7 @@ export interface DatabaseConnectionStatus {
   isConnect: boolean;
   timeStarted: number;
   err?: any;
-  connection?: Connection
+  connection?: any
 }
 
 export { DataInsertion, DatabaseConnection };

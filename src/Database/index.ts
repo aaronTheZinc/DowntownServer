@@ -1,17 +1,20 @@
 import { User } from "../entities/user";
 import { Client, DataInsertion } from "../models/types";
-import { Connection } from "typeorm";
+import { Connection, getRepository } from "typeorm";
 
 const createUser = async (
   connection: Connection,
-  data?: Client
+  data: Client
 ): Promise<DataInsertion> => {
   const client = new User();
-  client.age = "19";
-  client.firstName = "Aaron";
-  client.lastName = "Marsh";
-  client.id = 1
-  
+
+  client.firstName = data.firstName;
+  client.lastName = data.lastName;
+  client.shop = data.shop;
+  client.purchased = new Array();
+  client.bookMarked = new Array();
+  client.stripe = data.stripe;
+  client.address = data.address;
 
   const savedStatus = (await connection.manager
     .save(client)
@@ -23,5 +26,18 @@ const createUser = async (
   return savedStatus;
 };
 
+const fetchClient = async (uid: string): Promise<any> => {
+  const userRepo = getRepository(User);
 
-export {createUser}
+  const user = await userRepo
+    .findOne({ where: { id: uid } })
+    .catch((err) => {
+      console.log(err);
+    });
+
+    return user
+};
+
+
+
+export { createUser, fetchClient };
