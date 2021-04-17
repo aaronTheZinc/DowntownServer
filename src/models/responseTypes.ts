@@ -1,7 +1,7 @@
 import { Connection } from "typeorm";
 
 export interface DataInsertion {
-    didSucceed: Boolean
+    didSucceed: boolean
     data?: any
     error?: any
 }
@@ -9,4 +9,9 @@ export interface DatabaseConnection {
     connection?: Connection
     error?: any
     
+}
+
+export interface status {
+    err?: string
+    didSucceed: boolean
 }

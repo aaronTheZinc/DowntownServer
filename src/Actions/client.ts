@@ -1,4 +1,4 @@
-import { createUser, fetchClient as FetchClient } from "../Database/index";
+import { createUser, fetchClient as FetchClient } from "../Database/client";
 import { Connection } from "typeorm";
 import { Client } from "../models/types";
 import { User } from "../entity/user";
