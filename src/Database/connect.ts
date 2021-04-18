@@ -16,24 +16,7 @@ class DatabaseConnection {
     let retries = 5
     while (retries) {
       try {
-        await createConnection({
-          type: "postgres",
-          host: "db",
-          port: 5432,
-          username: "postgres",
-          password: "postgres",
-          database: "downtown-db",
-          synchronize: true,
-          logging: true,
-          entities: [User],
-          migrations: [],
-          subscribers: [],
-          cli: {
-            entitiesDir: "src/entity",
-            migrationsDir: "src/migration",
-            subscribersDir: "src/subscriber",
-          },
-        })
+        await createConnection(DatabaseConfig)
         .then((connection) => {
           console.log("connection success...");
           this.databaseConnection = {

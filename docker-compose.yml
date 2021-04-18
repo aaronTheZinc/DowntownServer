@@ -4,8 +4,8 @@ services:
   db:
     image: postgres
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: dXUrZEcVrYqn3j7wGAYAEveJGAy4LdZ3Tk2NX6r3YyBMTbuXNVpA4G3MerXpnaLV
+      POSTGRES_USER: downtown-admin
       POSTGRES_DB: downtown-db
     volumes:
       - ../pgdata:/var/lib/postgresql/data
@@ -13,6 +13,11 @@ services:
       - "5432:5432"
   web:
     image: server
+    environment:
+      - DB_NAME=downtown-db
+      - DB_HOST=db
+      - DB_USERNAME=downtown-admin
+      - DB_PASSWORD=dXUrZEcVrYqn3j7wGAYAEveJGAy4LdZ3Tk2NX6r3YyBMTbuXNVpA4G3MerXpnaLV
     depends_on:
       - db
     ports:
