@@ -18,7 +18,7 @@ class DatabaseConnection {
       try {
         await createConnection({
           type: "postgres",
-          host: "localhost",
+          host: "db",
           port: 5432,
           username: "postgres",
           password: "postgres",
