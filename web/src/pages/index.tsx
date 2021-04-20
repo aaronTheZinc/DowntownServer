@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
+import { PageHeader } from 'antd'
 
 export default function Home() {
   return (
@@ -8,11 +9,10 @@ export default function Home() {
         <title>Downtown</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+  
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to Downtown
-        </h1>
+  
 
       </main>
 

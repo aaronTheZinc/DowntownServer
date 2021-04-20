@@ -1,6 +1,7 @@
-import { DataInsertion, DatabaseConnection } from "./responseTypes";
+import { DataInsertion, DatabaseConnection, StripeClient } from "./responseTypes";
 import { Countries } from "./enums";
 import {Connection} from 'typeorm'
+// Address Schema
 export interface Address {
   street: string;
   city: string;
@@ -8,11 +9,12 @@ export interface Address {
   country: Countries;
   zip: string
 }
-
+// Client Schema
 export interface Client {
   id: string,
   firstName: string;
   lastName: string;
+  email: string
   shop: string;
   purchased: Array<string>;
   bookedMarked?: Array<String>;
@@ -28,7 +30,7 @@ export interface Client {
     zip: string
   }
 }
-
+// Product Schema
 export interface Product {
   id?: string
   title: string;
@@ -39,7 +41,7 @@ export interface Product {
 }
 
 // Under the hood
-
+// Database Connection Schema
 export interface DatabaseConnectionStatus {
   isConnect: boolean;
   timeStarted: number;
@@ -47,4 +49,4 @@ export interface DatabaseConnectionStatus {
   connection?: any
 }
 
-export { DataInsertion, DatabaseConnection };
+export { DataInsertion, DatabaseConnection, StripeClient };

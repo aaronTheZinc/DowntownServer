@@ -15,3 +15,7 @@ export interface status {
     err?: string
     didSucceed: boolean
 }
+export interface  StripeClient {
+    connect: string
+    customer: string
+}
