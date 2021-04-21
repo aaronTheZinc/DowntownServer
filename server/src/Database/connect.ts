@@ -37,6 +37,6 @@ class DatabaseConnection {
   };
 }
 
-const { databaseConnection, create } = new DatabaseConnection();
+
 
 export default new DatabaseConnection();

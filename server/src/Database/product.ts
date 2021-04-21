@@ -6,6 +6,7 @@ import { DataInsertion } from "../models/responseTypes";
 
 const createProduct = async (
   product: product,
+  uid: string,
   connection: Connection
 ): Promise<DataInsertion> => {
   try {

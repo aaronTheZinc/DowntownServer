@@ -1,23 +1,21 @@
+import { title } from "node:process";
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
-import { Client } from "../models/types";
 
 @Entity()
-export class Product extends BaseEntity {
+export class Shop extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: string;
-
   @Column()
   title!: string;
-
   @Column()
-  price!: string;
-
-  @Column()
-  description!: string;
+  profileImageUrl!: string;
 
   @Column("simple-array")
-  images!: string[];
+  products!: string[];
+
+  @Column("simple-array")
+  orders!: string[];
 
   @Column()
-  shop!: string
+  shop_owner!: string;
 }

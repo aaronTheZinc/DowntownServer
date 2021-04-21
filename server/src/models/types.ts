@@ -30,6 +30,14 @@ export interface Client {
     zip: string
   }
 }
+// Shop
+export interface Shop {
+  title: string
+  profileImageUrl: string
+  shop_owner: string
+  products: string[]
+}
+
 // Product Schema
 export interface Product {
   id?: string

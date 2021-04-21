@@ -1,6 +1,11 @@
 import stripe from "./stripe";
 import { Client, StripeClient } from "../models/types";
+import { fetchClient } from "../Database/client";
+import * as dotenv from "dotenv";
 
+dotenv.config();
+
+// Init Customer
 const createUser = async (customer: Client): Promise<StripeClient> => {
   const { email } = customer;
 
@@ -13,8 +18,25 @@ const createUser = async (customer: Client): Promise<StripeClient> => {
         zipcode: customer.address.zip,
       },
     });
-    const connectResult = await stripe.accounts.create({
-      type: "express",
+    const { id: cus } = customerResult;
+
+    return {
+      connect: cus,
+      customer: "DEFAULT",
+    } as StripeClient;
+  } catch (e) {
+    return e;
+  }
+};
+
+// Link to your account
+
+const linkConnectShop = async (uid: string): Promise<String> => {
+  try {
+    const { email } = await fetchClient(uid);
+
+    const account = await stripe.accounts.create({
+      type: "custom",
       country: "US",
       email: email,
       capabilities: {
@@ -27,16 +49,19 @@ const createUser = async (customer: Client): Promise<StripeClient> => {
       },
     });
 
-    const { id: cus } = customerResult;
-    const { id: connect } = connectResult;
+    const accountLink = await stripe.accountLinks.create({
+      account: account.id,
+      refresh_url: "https://example.com/reauth",
+      return_url: "https://example.com/return",
+      type: "account_onboarding",
+    });
 
-    return {
-      connect: cus,
-      customer: connect,
-    } as StripeClient;
+    return accountLink.url;
   } catch (e) {
-    return e;
+    throw new Error(`Stripe Error Occured: ${e}`);
   }
 };
 
-export { createUser };
+const confirmConnect = async (account: string) => {};
+
+export { createUser, linkConnectShop };
