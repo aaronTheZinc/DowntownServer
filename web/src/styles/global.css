@@ -1,4 +1,9 @@
+@font-face {
+  font-family: Asap;
+  src: url(../Fonts/Asap-VariableFont_wght.ttf);
+}
 html,
+
 body {
   padding: 0;
   margin: 0;
@@ -8,6 +13,24 @@ body {
 .site-page-header {
   border: 1px solid rgb(235, 237, 240);
   width: 100vw;
+}
+.header {
+  width: 100vw;
+  background-color: black;
+  height: 7vh;
+  font-size: 2rem;
+  color: white;
+  font-family: Asap;
+  align-items: center;
+  display: flex;
+}
+.header label {
+  font-weight: bolder;
+  padding-top: 100vh;
+  vertical-align: middle;
+  position: relative;
+  bottom: 1px;
+
 }
 
 a {
