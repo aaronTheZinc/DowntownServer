@@ -5,6 +5,8 @@ import { isConnected } from "./middleware/middlewares";
 import { Client } from "../models/types";
 import Database from "../Database/connect";
 
+
+
 const router = Router();
 
 router.use(express.json());
@@ -50,5 +52,9 @@ router.get("/get_client", async (req: Request, res: Response) => {
     client: client,
   });
 });
+
+router.post("/test", async (req: Request, res: Response) => res.json({
+  data: req.body
+}));
 
 export default router;
