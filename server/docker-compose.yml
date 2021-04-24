@@ -20,5 +20,6 @@ services:
       - DB_PASSWORD=dXUrZEcVrYqn3j7wGAYAEveJGAy4LdZ3Tk2NX6r3YyBMTbuXNVpA4G3MerXpnaLV
     depends_on:
       - db
+    restart: always
     ports:
       - "4000:5000"
