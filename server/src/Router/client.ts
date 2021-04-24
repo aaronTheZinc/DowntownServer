@@ -37,7 +37,8 @@ router.post("/create_user", async (req: Request, res: Response) => {
       clientData
     );
     res.json({
-      status: 500,
+      status: 201,
+      data: didInsert.data,
       message: "User Created!",
     });
     console.log("Insertion Result =>", didInsert);

@@ -11,8 +11,8 @@ const createUser = async (
 ): Promise<DataInsertion> => {
   const client = new User();
   const {connect, customer} = await createStripeUser(data)
-
-  client.id = createUid()
+  const uid = createUid()
+  client.id = uid
   client.authId = data.authId
   client.firstName = data.firstName;
   client.lastName = data.lastName;
@@ -25,7 +25,9 @@ const createUser = async (
 
   const savedStatus = (await connection.manager
     .save(client)
-    .then((client) => client.id)
+    .then((client) =>{
+     return { didSucceed:false, data: client.id} as DataInsertion
+    })
     .catch((err) => {
       return { error: err, didSucceed: false } as DataInsertion;
     })) as DataInsertion;
