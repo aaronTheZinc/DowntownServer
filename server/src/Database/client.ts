@@ -1,5 +1,5 @@
 import { User } from "../entity/user";
-import { Client, DataInsertion } from "../models/types";
+import { Client, DatabaseAction } from "../models/types";
 import { Connection, getRepository } from "typeorm";
 import { createStripeUser } from './operations'
 import { v4 as createUid } from 'uuid'
@@ -8,7 +8,7 @@ import { v4 as createUid } from 'uuid'
 const createUser = async (
   connection: Connection,
   data: Client
-): Promise<DataInsertion> => {
+): Promise<DatabaseAction> => {
   const client = new User();
   const {connect, customer} = await createStripeUser(data)
   const uid = createUid()
@@ -27,11 +27,11 @@ const createUser = async (
   const savedStatus = (await connection.manager
     .save(client)
     .then((client) =>{
-     return { didSucceed:false, data: client.id} as DataInsertion
+     return { didSucceed:false, data: client.id} as DatabaseAction
     })
     .catch((err) => {
-      return { error: err, didSucceed: false } as DataInsertion;
-    })) as DataInsertion;
+      return { error: err, didSucceed: false } as DatabaseAction;
+    })) as DatabaseAction;
 
   return savedStatus;
 };

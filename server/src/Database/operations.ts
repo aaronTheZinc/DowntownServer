@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Client, DataInsertion, StripeClient } from "../models/types";
+import { Client, DatabaseAction, StripeClient } from "../models/types";
 import { createUser } from "../stripe/index";
 import { appendProductToShop } from './shop'
 

@@ -1,5 +1,5 @@
 import {
-  DataInsertion,
+  DatabaseAction,
   DatabaseConnection,
   StripeClient,
 } from "./responseTypes";
@@ -80,4 +80,4 @@ export interface DatabaseConnectionStatus {
 
 // Product Feed
 
-export { DataInsertion, DatabaseConnection, StripeClient };
+export { DatabaseAction, DatabaseConnection, StripeClient };
