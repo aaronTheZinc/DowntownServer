@@ -19,7 +19,7 @@ router.get("/", async (req: Request, res: Response) => {
   res.send("Products");
 });
 
-router.post("/create_product", (req: Request, res: Response) => {
+router.post("/create_product", async(req: Request, res: Response) => {
   const { databaseConnection } = Database;
   try {
     console.log(isConnect);
@@ -27,7 +27,8 @@ router.post("/create_product", (req: Request, res: Response) => {
     const { product } = req.body;
     console.log(product);
     console.log(isConnect);
-    createProduct(product!, String(uid), databaseConnection.connection);
+    const productInsertion = await createProduct(product!, String(uid), databaseConnection.connection);
+      res.json(productInsertion)
   } catch (e) {
     console.error(e);
     res.json({
