@@ -13,6 +13,7 @@ const createUser = async (
   const {connect, customer} = await createStripeUser(data)
   const uid = createUid()
   client.id = uid
+  client.email = data.email
   client.authId = data.authId
   client.firstName = data.firstName;
   client.lastName = data.lastName;

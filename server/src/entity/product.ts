@@ -3,7 +3,7 @@ import { Client } from "../models/types";
 
 @Entity()
 export class Product extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   @Column()
@@ -14,6 +14,9 @@ export class Product extends BaseEntity {
 
   @Column()
   description!: string;
+
+  @Column()
+  thumbnail!: string;
 
   @Column("simple-array")
   images!: string[];
