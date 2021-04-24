@@ -2,6 +2,7 @@ import { User } from "../entity/user";
 import { Client, DataInsertion } from "../models/types";
 import { Connection, getRepository } from "typeorm";
 import { createStripeUser } from './operations'
+import { v4 as createUid } from 'uuid'
 
 // Insert New User
 const createUser = async (
@@ -11,7 +12,8 @@ const createUser = async (
   const client = new User();
   const {connect, customer} = await createStripeUser(data)
 
-  client.id = data.id
+  client.id = createUid()
+  client.authId = data.authId
   client.firstName = data.firstName;
   client.lastName = data.lastName;
   client.shop = data.shop;

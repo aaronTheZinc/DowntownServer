@@ -4,7 +4,7 @@ import { Address } from "../models/types";
 
 @Entity()
 export class User extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   id!: string;
 
   @Column()
@@ -16,16 +16,18 @@ export class User extends BaseEntity {
   @Column()
   shop!: string;
 
-  @Column('simple-array')
+  @Column()
+  authId!: string;
+
+  @Column("simple-array")
   purchased!: string[];
 
-  @Column('simple-array')
+  @Column("simple-array")
   bookMarked!: string[];
 
-  @Column('simple-json')
+  @Column("simple-json")
   address!: Address;
 
-  @Column('simple-json')
+  @Column("simple-json")
   stripe!: Object;
-
-} 
+}

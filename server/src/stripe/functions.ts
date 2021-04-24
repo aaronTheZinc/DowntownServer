@@ -21,8 +21,8 @@ const createUser = async (customer: Client): Promise<StripeClient> => {
     const { id: cus } = customerResult;
 
     return {
-      connect: cus,
-      customer: "DEFAULT",
+      connect: "DEFAULT",
+      customer: cus,
     } as StripeClient;
   } catch (e) {
     return e;
@@ -62,6 +62,14 @@ const linkConnectShop = async (uid: string): Promise<String> => {
   }
 };
 
+const getEphimeral = async (customer: string) => {
+  const key = await stripe.ephemeralKeys.create(
+    { customer: customer },
+    { apiVersion: "2020-08-27" }
+  );
+  return key;
+};
+
 const confirmConnect = async (account: string) => {};
 
-export { createUser, linkConnectShop };
+export { createUser, linkConnectShop, getEphimeral };

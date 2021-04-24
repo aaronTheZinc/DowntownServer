@@ -19,3 +19,8 @@ export interface  StripeClient {
     connect: string
     customer: string
 }
+export interface BasicResponse {
+    data?: any
+    err?: any
+    didSucceed: boolean
+}

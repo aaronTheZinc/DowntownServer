@@ -12,6 +12,7 @@ export interface Address {
 // Client Schema
 export interface Client {
   id: string,
+  authId: string
   firstName: string;
   lastName: string;
   email: string

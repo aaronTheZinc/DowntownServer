@@ -1,7 +1,9 @@
 import {
-createUser
+createUser,
+getEphimeral
 } from './functions'
 
 export {
-    createUser
+    createUser,
+    getEphimeral
 }

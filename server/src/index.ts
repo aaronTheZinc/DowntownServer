@@ -7,7 +7,9 @@ const app: Application = express();
 const App = async () => {
   await Database.create();
   app.use("/", router);
-  app.listen(5001, () => console.log("Downtown Is Listening..."));
+  app.get('/', (req: Request, res: Response) => {
+  })
+  app.listen(5000, () => console.log("Downtown Is Listening..."));
 };
 
 App();
