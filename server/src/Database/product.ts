@@ -2,13 +2,13 @@ import { Connection, createQueryBuilder, getRepository } from "typeorm";
 import { Product } from "../entity/product";
 import { Product as product, ProductFeed } from "../models/types";
 import { v4 as uuidv4 } from "uuid";
-import { DataInsertion } from "../models/responseTypes";
+import { DatabaseAction } from "../models/responseTypes";
 
 const createProduct = async (
   product: product,
   uid: string,
   connection: Connection
-): Promise<DataInsertion> => {
+): Promise<DatabaseAction> => {
   console.log("meme");
   const createdProducted = new Product();
 
@@ -23,10 +23,10 @@ const createProduct = async (
   const creationResult = await connection.manager
     .save(createdProducted)
     .then((product) => {
-      return { data: product, didSucceed: true } as DataInsertion;
+      return { data: product, didSucceed: true } as DatabaseAction;
     })
     .catch((err) => {
-      return { error: err, didSucceed: false } as DataInsertion;
+      return { error: err, didSucceed: false } as DatabaseAction;
     });
 
   console.log(creationResult);
@@ -37,14 +37,13 @@ const createProduct = async (
 // Fetch General Results Of Products
 
 const generateFeed = async (): Promise<ProductFeed> => {
-  console.log('Called!')
-  let products = await Product.getRepository()
+  console.log("Called!");
+  let products = (await Product.getRepository()
     .createQueryBuilder()
     .select("Product")
     .orderBy("RANDOM()")
     .limit(150)
-    .getMany() as product[];
-  
+    .getMany()) as product[];
 
   let feed = products.map((product) => {
     return {
@@ -64,4 +63,20 @@ const generateFeed = async (): Promise<ProductFeed> => {
   return ProductFeed;
 };
 
-export { createProduct, generateFeed };
+// Get Specific Product
+
+const getOneProduct = async (product: string): Promise<DatabaseAction> => {
+  const userRepo = getRepository(Product);
+
+  const user = await userRepo
+    .findOne({ where: { id: product } })
+    .then((product) => {
+      return { didSucceed: true, data: product as product } as DatabaseAction;
+    })
+    .catch((err) => {
+      return { error: err, didSucceed: false } as DatabaseAction;
+    });
+
+  return user;
+};
+export { createProduct, generateFeed, getOneProduct };

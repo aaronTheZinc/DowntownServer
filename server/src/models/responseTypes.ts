@@ -1,10 +1,11 @@
 import { Connection } from "typeorm";
 
-export interface DataInsertion {
+export interface DatabaseAction {
     didSucceed: boolean
     data?: any
     error?: any
 }
+
 export interface DatabaseConnection {
     connection?: Connection
     error?: any

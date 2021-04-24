@@ -1,13 +1,13 @@
 import { Connection, getRepository } from "typeorm";
 import { Shop } from "../entity/shop";
-import { DataInsertion } from "../models/responseTypes";
+import { DatabaseAction } from "../models/responseTypes";
 import { Shop as shop } from "../models/types";
 
 const appendProductToShop = async (
   id: string,
   product: string,
   connection: Connection
-): Promise<DataInsertion> => {
+): Promise<DatabaseAction> => {
   try {
     const result = await getRepository(Shop).findOne({ where: { id: id } });
     let updatedProductList = result!.products
@@ -29,12 +29,12 @@ const appendProductToShop = async (
     return {
       data: update.raw,
       didSucceed: true,
-    } as DataInsertion;
+    } as DatabaseAction;
   } catch (e) {
     return {
         didSucceed: false,
         error: e
-    } as DataInsertion;
+    } as DatabaseAction;
   }
 };
 
