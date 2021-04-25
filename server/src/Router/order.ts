@@ -1,29 +1,39 @@
-import exrpess, {Request, Response, Router} from 'express'
-import Database from '../Database/connect'
-
+import exrpess, { Request, Response, Router } from "express";
+import Database from "../Database/connect";
 
 const router = Router();
 
-router.get('/get_order', (req: Request, res: Response) => {
-    const { order: order_id } = req.query
+router.get("/get_order", (req: Request, res: Response) => {
+  const { order: order_id } = req.query;
 
-    !order_id? res.json({'Error': 'Please provide order id'}) : null
-    
-    const { databaseConnection } = Database
-    try {
-        if(databaseConnection.connection) {
+  !order_id ? res.json({ Error: "Please provide order id" }) : null;
 
-        }else {
-            res.json({
-                error: 'An Error Occured',
-                message: 'Database Connection Error'
-            })
-        }
-
-    }catch(e) {
-        res.json({
-            error: 'An Error Occured',
-            message: e
-        })
+  const { databaseConnection } = Database;
+  try {
+    if (databaseConnection.connection) {
+    } else {
+      res.json({
+        error: "An Error Occured",
+        message: "Database Connection Error",
+      });
     }
-})
+  } catch (e) {
+    res.json({
+      error: "An Error Occured",
+      message: e,
+    });
+  }
+});
+
+router.post("/create_order", (req: Request, res: Response) => {
+  const { databaseConnection } = Database;
+  try {
+    if (databaseConnection.isConnect) {
+    }
+  } catch (err) {
+    res.json({
+      error: "An Error Occured",
+      message: err,
+    });
+  }
+});

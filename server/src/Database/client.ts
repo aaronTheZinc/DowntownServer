@@ -38,12 +38,23 @@ const createUser = async (
 
 // Pull Client Record
 
-const fetchClient = async (uid: string): Promise<any> => {
+const fetchClient = async (uid: string): Promise<DatabaseAction> => {
   const userRepo = getRepository(User);
 
-  const user = await userRepo.findOne({ where: { id: uid } }).catch((err) => {
-    console.log(err);
-  });
+  const user = await userRepo
+    .findOne({ where: { id: uid } })
+    .then((user) => {
+      return {
+        data: user,
+        didSucceed: true,
+      } as DatabaseAction;
+    })
+    .catch((err) => {
+      return {
+        error: err,
+        didSucceed: false,
+      } as DatabaseAction;
+    });
 
   return user;
 };

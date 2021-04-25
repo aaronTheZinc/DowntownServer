@@ -8,6 +8,6 @@ const insertUser = async (
   data: Client
 ): Promise<DatabaseAction> => await createUser(connection, data);
 
-const fetchClient = async(uid: string): Promise<any> => await FetchClient(uid)
+const fetchClient = async(uid: string): Promise<DatabaseAction> => await FetchClient(uid)
 
 export { insertUser, fetchClient };
