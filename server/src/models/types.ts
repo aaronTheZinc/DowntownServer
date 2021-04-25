@@ -63,6 +63,19 @@ export interface ProductLite {
   shop: string
 }
 
+// Orders
+export interface Order {
+  transaction: string
+  product: string
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    country: Countries;
+    zip: string;
+  };
+}
+
 // Interactives
 export interface ProductFeed {
   authored: number;

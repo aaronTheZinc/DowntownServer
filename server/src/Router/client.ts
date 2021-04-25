@@ -72,6 +72,7 @@ router.get("/create_ephemeral", async (req: Request, res: Response) => {
       error: "An Error Occured!",
       message: e,
     });
+
   }
 });
 

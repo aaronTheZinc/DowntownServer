@@ -1,8 +1,8 @@
 import { User } from "../entity/user";
 import { Client, DatabaseAction } from "../models/types";
 import { Connection, getRepository } from "typeorm";
-import { createStripeUser } from './operations'
-import { v4 as createUid } from 'uuid'
+import { createStripeUser } from "./operations";
+import { v4 as createUid } from "uuid";
 
 // Insert New User
 const createUser = async (
@@ -10,11 +10,11 @@ const createUser = async (
   data: Client
 ): Promise<DatabaseAction> => {
   const client = new User();
-  const {connect, customer} = await createStripeUser(data)
-  const uid = createUid()
-  client.id = uid
-  client.email = data.email
-  client.authId = data.authId
+  const { connect, customer } = await createStripeUser(data);
+  const uid = createUid();
+  client.id = uid;
+  client.email = data.email;
+  client.authId = data.authId;
   client.firstName = data.firstName;
   client.lastName = data.lastName;
   client.shop = data.shop;
@@ -22,12 +22,12 @@ const createUser = async (
   client.bookMarked = new Array();
   client.stripe = data.stripe;
   client.address = data.address;
-  client.stripe = {stripe_connect: connect, stripe_cus: customer}
+  client.stripe = { stripe_connect: connect, stripe_cus: customer };
 
   const savedStatus = (await connection.manager
     .save(client)
-    .then((client) =>{
-     return { didSucceed:false, data: client.id} as DatabaseAction
+    .then((client) => {
+      return { didSucceed: false, data: client.id } as DatabaseAction;
     })
     .catch((err) => {
       return { error: err, didSucceed: false } as DatabaseAction;
@@ -36,20 +36,16 @@ const createUser = async (
   return savedStatus;
 };
 
-
 // Pull Client Record
 
 const fetchClient = async (uid: string): Promise<any> => {
   const userRepo = getRepository(User);
 
-  const user = await userRepo
-    .findOne({ where: { id: uid } })
-    .catch((err) => {
-      console.log(err);
-    })
-    
-    return user
-};
+  const user = await userRepo.findOne({ where: { id: uid } }).catch((err) => {
+    console.log(err);
+  });
 
+  return user;
+};
 
 export { createUser, fetchClient };
