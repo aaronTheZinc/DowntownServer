@@ -2,6 +2,7 @@ import express, { Router, Request, Response, NextFunction } from "express";
 import {
   createProduct,
   generateFeed,
+  getManyProducts,
   getOneProduct,
 } from "../Database/product";
 import { createFeed } from "../Actions/products";
@@ -49,7 +50,7 @@ router.post("/create_product", async (req: Request, res: Response) => {
 //Pulls Product From Database
 
 router.get("/get_one", async (req: Request, res: Response) => {
-  console.log('trieggered')
+  console.log("trieggered");
   const { databaseConnection } = Database;
   const { product: product_id } = req.query;
 
@@ -63,6 +64,39 @@ router.get("/get_one", async (req: Request, res: Response) => {
       res
         .json({
           data: product.data,
+        })
+        .status(200);
+    } else {
+      res
+        .json({
+          error: "An Error Occured",
+        })
+        .status(550);
+    }
+  } catch (e) {
+    res.json({
+      error: " An Error Occured",
+      message: e,
+    });
+  }
+});
+
+//Get Multiple Products
+router.post("/get_many", async (req: Request, res: Response) => {
+  
+  const { databaseConnection } = Database;
+  const { products } = req.body;
+
+  !products
+    ? res.json({ error: "Must Provide Products In Body" }).status(500).end()
+    : null;
+
+  try {
+    if (databaseConnection.isConnect) {
+      const productList = await getManyProducts(products as string[]);
+      res
+        .json({
+          data: productList
         })
         .status(200);
     } else {

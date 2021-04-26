@@ -24,7 +24,6 @@ router.get("/", (req: Request, res: Response) => {
 });
 
 router.post("/create_user", async (req: Request, res: Response) => {
-  console.log("--->", Database.databaseConnection);
   if (!Database.databaseConnection.isConnect) {
     res.json({
       internalErr: "Database Connection Failed... Please Retry",

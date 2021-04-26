@@ -33,7 +33,7 @@ const createUser = async (customer: Client): Promise<StripeClient> => {
 
 const linkConnectShop = async (uid: string): Promise<String> => {
   try {
-    const { email } = await fetchClient(uid);
+    const { data:{email} } = await fetchClient(uid);
 
     const account = await stripe.accounts.create({
       type: "custom",

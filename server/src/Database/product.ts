@@ -72,7 +72,12 @@ const getOneProduct = async (product: string): Promise<DatabaseAction> => {
   const user = await productRepo
     .findOne({ where: { id: product } })
     .then((product) => {
-      return { didSucceed: true, data: product as product } as DatabaseAction;
+      return !product
+        ? ({
+            error: "One or More Products Dont Exist.",
+            didSucceed: false,
+          } as DatabaseAction)
+        : ({ didSucceed: true, data: product as product } as DatabaseAction);
     })
     .catch((err) => {
       return { error: err, didSucceed: false } as DatabaseAction;
@@ -83,7 +88,9 @@ const getOneProduct = async (product: string): Promise<DatabaseAction> => {
 
 // Get Many Products [Resolve Shopping] depends on this.
 
-const getManyProducts = async (list: string[]): Promise<DatabaseAction> => {
+const getManyProducts = async (
+  list: Array<string>
+): Promise<DatabaseAction> => {
   try {
     const gatherProducts = new Promise(async (resolve, reject) => {
       const retrieved_products = list.map(
@@ -98,7 +105,8 @@ const getManyProducts = async (list: string[]): Promise<DatabaseAction> => {
       resolve(productList);
     });
 
-    const Products = gatherProducts.then((products) => products);
+    const Products = await gatherProducts.then((products) => products);
+    console.log("Products --", Products);
     return { didSucceed: true, data: Products } as DatabaseAction;
   } catch (err) {
     return { error: err, didSucceed: false } as DatabaseAction;

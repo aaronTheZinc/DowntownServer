@@ -21,8 +21,8 @@ export interface Client {
   lastName: string;
   email: string;
   shop: string;
-  purchased: Array<string>;
-  bookedMarked?: Array<String>;
+  purchased?: Array<string>;
+  bookMarked?: Array<string>;
   stripe: {
     stripe_connect: string;
     stripe_cus: string;
@@ -67,6 +67,7 @@ export interface ProductLite {
 export interface Order {
   transaction: string
   product: string
+  customer: string
   address: {
     street: string;
     city: string;

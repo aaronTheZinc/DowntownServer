@@ -4,7 +4,7 @@ import { getEphimeral } from "../stripe/index";
 import { fetchClient } from "./client";
 const generateEphimeral = async (uid: string): Promise<BasicResponse> => {
   try {
-    const client: Client = (await fetchClient(uid)) as Client;
+    const { data: client } = await fetchClient(uid) ;
     const {
       stripe: { stripe_cus },
     } = client;

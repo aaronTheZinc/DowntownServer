@@ -9,7 +9,12 @@ const createOrder = async (
   order: order
 ): Promise<DatabaseAction> => {
   const createdOrder = new Order();
-  createdOrder.id = generateUid();
+  
+    createdOrder.id = generateUid();
+    createdOrder.transaction = order.transaction
+    createdOrder.customer = order.customer
+    createdOrder.address = order.address
+
   const result = await connection.manager
     .save(createdOrder)
     .then((order) => {
