@@ -1,5 +1,5 @@
 import { BasicResponse } from "../models/responseTypes";
-import { Client } from "../models/types";
+import { Client } from "../models";
 import { getEphimeral } from "../stripe/index";
 import { fetchClient } from "./client";
 const generateEphimeral = async (uid: string): Promise<BasicResponse> => {

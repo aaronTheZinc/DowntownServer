@@ -1,5 +1,6 @@
 import { User } from "../entity/user";
-import { Client, DatabaseAction } from "../models/types";
+import type { Client, DatabaseAction, AppendShop } from "../models";
+import { shopExist } from './shop'
 import { Connection, getRepository } from "typeorm";
 import { createStripeUser } from "./operations";
 import { v4 as createUid } from "uuid";
@@ -19,7 +20,7 @@ const createUser = async (
   client.lastName = data.lastName;
   client.shop = data.shop;
   client.purchased = new Array();
-  client.bookMarked = ["82273bc4-8913-456c-9ca4-1ee85b60aa84", "dcb801b6-c60c-4369-a10b-28c81630102e"];
+  client.bookMarked = new Array();
   client.stripe = data.stripe;
   client.address = data.address;
   client.stripe = { stripe_connect: connect, stripe_cus: customer };
@@ -58,5 +59,40 @@ const fetchClient = async (uid: string): Promise<DatabaseAction> => {
 
   return user;
 };
+const mapAuthId = async(authId: string): Promise<string> => {
+  const userRepo = getRepository(User);
+  const user = await userRepo
+  .findOne({ where: { authId: authId } })
+  .then((user) => {
+    return {
+      data: user,
+      didSucceed: true,
+    } as DatabaseAction;
+  })
+  .catch((err) => {
+    return {
+      error: err,
+      didSucceed: false,
+    } as DatabaseAction;
+  });
+  return user.data.id!
+}
 
-export { createUser, fetchClient };
+
+// Binds Shop To Client
+const bindShopToClient = async (
+  authId: string,
+  shopName: string
+): Promise<DatabaseAction> => {
+  const uuid = await mapAuthId(authId)
+  const shopIsValid = await shopExist(shopName)
+  if(shopIsValid) {
+
+  }
+   const client = await fetchClient(uuid)
+  return {
+    data: {},
+    didSucceed: true,
+  };
+};
+export { createUser, fetchClient, mapAuthId, bindShopToClient };

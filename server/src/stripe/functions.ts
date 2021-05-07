@@ -1,5 +1,5 @@
 import stripe from "./stripe";
-import { Client, StripeClient } from "../models/types";
+import { Client, StripeClient } from "../models";
 import { fetchClient } from "../Database/client";
 import * as dotenv from "dotenv";
 

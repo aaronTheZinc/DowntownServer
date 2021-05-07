@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
-import { Client } from "../models/types";
-import { Address } from "../models/types";
+import { Client } from "../models";
+import { Address } from "../models/index";
 
 @Entity()
 export class User extends BaseEntity {

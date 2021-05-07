@@ -3,7 +3,7 @@ import { Connection, createConnection } from "typeorm";
 import { insertUser, fetchClient } from "../Actions/client";
 import { generateEphimeral } from "../Actions/stripe";
 import { isConnected } from "./middleware/middlewares";
-import { Client } from "../models/types";
+import { Client } from "../models";
 import Database from "../Database/connect";
 
 const router = Router();
@@ -71,8 +71,13 @@ router.get("/create_ephemeral", async (req: Request, res: Response) => {
       error: "An Error Occured!",
       message: e,
     });
-
   }
+});
+
+// Appends Shop To User
+router.post("/append_shop", (req: Request, res: Response) => {
+  const { authId, shopName } = req.body;
+  const { connection, isConnect } = Database.databaseConnection;
 });
 
 export default router;

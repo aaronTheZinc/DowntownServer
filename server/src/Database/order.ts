@@ -1,6 +1,6 @@
 import { Connection, getRepository } from "typeorm";
 import { Order } from "../entity/order";
-import { Order as order } from "../models/types";
+import { Order as order } from "../models";
 import { DatabaseAction } from "../models/responseTypes";
 import { v4 as generateUid } from "uuid";
 
@@ -9,11 +9,10 @@ const createOrder = async (
   order: order
 ): Promise<DatabaseAction> => {
   const createdOrder = new Order();
-  
-    createdOrder.id = generateUid();
-    createdOrder.transaction = order.transaction
-    createdOrder.customer = order.customer
-    createdOrder.address = order.address
+
+  createdOrder.id = generateUid();
+  createdOrder.customer = order.customer;
+  createdOrder.address = order.address;
 
   const result = await connection.manager
     .save(createdOrder)

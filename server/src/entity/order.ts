@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
-import { Client, Address } from "../models/types";
+import { Client, Address } from "../models";
 import { Product } from "./product";
 
 @Entity()
@@ -9,9 +9,6 @@ export class Order extends BaseEntity {
 
   @Column()
   customer!: string;
-
-  @Column()
-  transaction!: string;
 
   @Column()
   product!: string;

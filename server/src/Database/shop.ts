@@ -1,7 +1,7 @@
 import { Connection, getRepository } from "typeorm";
 import { Shop } from "../entity/shop";
 import { DatabaseAction } from "../models/responseTypes";
-import { Shop as shop } from "../models/types";
+import { Shop as shop } from "../models";
 
 const appendProductToShop = async (
   id: string,
@@ -38,4 +38,13 @@ const appendProductToShop = async (
   }
 };
 
-export { appendProductToShop };
+const shopExist = async(shopName: string): Promise<boolean> => {
+  const shopRepo = getRepository(Shop)
+  const shopExist = await shopRepo
+  .findOne({ where: { shopName: shopName } })
+  .then((user) => user? true: false)
+
+  return shopExist
+} 
+
+export { appendProductToShop, shopExist };

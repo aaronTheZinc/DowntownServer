@@ -1,6 +1,6 @@
 import { Connection, createQueryBuilder, getRepository, In } from "typeorm";
 import { Product } from "../entity/product";
-import { Product as product, ProductFeed } from "../models/types";
+import { Product as product, ProductFeed } from "../models";
 import { v4 as uuidv4 } from "uuid";
 import { DatabaseAction } from "../models/responseTypes";
 import { resolve } from "node:path";

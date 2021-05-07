@@ -1,7 +1,7 @@
 import exrpess, { Request, Response, Router } from "express";
 import { createOrder } from '../Actions/order'
 import Database from "../Database/connect";
-import { Order as order } from '../models/types'
+import { Order as order } from '../models'
 import { Order } from "../entity/order";
 import { argv } from "node:process";
 

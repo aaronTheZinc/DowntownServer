@@ -1,5 +1,5 @@
 import { Connection, createConnection } from "typeorm";
-import { DatabaseConnectionStatus } from "../models/types";
+import { DatabaseConnectionStatus } from "../models";
 import { DatabaseConfig } from '../Config/config'
 import { User } from '../entity/user'
 

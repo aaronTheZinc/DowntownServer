@@ -1,6 +1,6 @@
 import { DatabaseAction, DatabaseConnection } from "../models/responseTypes";
 import { fetchClient } from "./client";
-import { Client, Order } from "../models/types";
+import { Client, Order } from "../models";
 import { getManyProducts } from "../Database/product";
 import { createOrder as CreateOrder } from "../Database/order";
 import { Connection } from "typeorm";

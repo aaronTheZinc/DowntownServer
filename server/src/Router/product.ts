@@ -83,7 +83,6 @@ router.get("/get_one", async (req: Request, res: Response) => {
 
 //Get Multiple Products
 router.post("/get_many", async (req: Request, res: Response) => {
-  
   const { databaseConnection } = Database;
   const { products } = req.body;
 
@@ -96,7 +95,7 @@ router.post("/get_many", async (req: Request, res: Response) => {
       const productList = await getManyProducts(products as string[]);
       res
         .json({
-          data: productList
+          data: productList,
         })
         .status(200);
     } else {
