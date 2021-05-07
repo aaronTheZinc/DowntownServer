@@ -11,7 +11,6 @@ const resolveCart = async (uid: string): Promise<DatabaseAction> => {
   const { data, didSucceed, error } = user;
   if (didSucceed) {
     const { bookMarked } = data as Client;
-    console.log('@@@@@@@@@@@@@',bookMarked)
     if (bookMarked!.length > 0) {
       const List = await getManyProducts(bookMarked!);
       return {
@@ -29,9 +28,8 @@ const resolveCart = async (uid: string): Promise<DatabaseAction> => {
   }
 };
 
-const createOrder = async (
-  connection: Connection,
-  order: Order
-) => {}
+const createOrder = async (connection: Connection, order: Order) => {
+  
+};
 
 export { resolveCart, createOrder };

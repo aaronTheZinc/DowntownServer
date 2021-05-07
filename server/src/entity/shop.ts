@@ -18,4 +18,8 @@ export class Shop extends BaseEntity {
 
   @Column()
   shop_owner!: string;
+
+  @Column()
+  availableBal!: number
+
 }
