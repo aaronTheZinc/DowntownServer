@@ -1,6 +1,6 @@
 import { User } from "../entity/user";
 import type { Client, DatabaseAction, AppendShop } from "../models";
-import { shopExist } from './shop'
+import { shopExist } from "./shop";
 import { Connection, getRepository } from "typeorm";
 import { createStripeUser } from "./operations";
 import { v4 as createUid } from "uuid";
@@ -44,6 +44,27 @@ const fetchClient = async (uid: string): Promise<DatabaseAction> => {
 
   const user = await userRepo
     .findOne({ where: { id: uid } })
+    .then((user) =>
+      user
+        ? ({
+            data: user,
+            didSucceed: true,
+          } as DatabaseAction)
+        : ({ error: "Account Not Found", didSucceed: false } as DatabaseAction)
+    )
+    .catch((err) => {
+      return {
+        error: err,
+        didSucceed: false,
+      } as DatabaseAction;
+    });
+
+  return user;
+};
+const mapAuthId = async (authId: string): Promise<string> => {
+  const userRepo = getRepository(User);
+  const user = await userRepo
+    .findOne({ where: { authId: authId } })
     .then((user) => {
       return {
         data: user,
@@ -56,40 +77,19 @@ const fetchClient = async (uid: string): Promise<DatabaseAction> => {
         didSucceed: false,
       } as DatabaseAction;
     });
-
-  return user;
+  return user.data?.id!;
 };
-const mapAuthId = async(authId: string): Promise<string> => {
-  const userRepo = getRepository(User);
-  const user = await userRepo
-  .findOne({ where: { authId: authId } })
-  .then((user) => {
-    return {
-      data: user,
-      didSucceed: true,
-    } as DatabaseAction;
-  })
-  .catch((err) => {
-    return {
-      error: err,
-      didSucceed: false,
-    } as DatabaseAction;
-  });
-  return user.data.id!
-}
-
 
 // Binds Shop To Client
 const bindShopToClient = async (
   authId: string,
   shopName: string
 ): Promise<DatabaseAction> => {
-  const uuid = await mapAuthId(authId)
-  const shopIsValid = await shopExist(shopName)
-  if(shopIsValid) {
-
+  const uuid = await mapAuthId(authId);
+  const shopIsValid = await shopExist(shopName);
+  if (shopIsValid) {
   }
-   const client = await fetchClient(uuid)
+  const client = await fetchClient(uuid);
   return {
     data: {},
     didSucceed: true,

@@ -25,7 +25,10 @@ const getUserProfile = async (authId: string): Promise<ClientProfile> => {
   } as unknown) as ClientProfile;
 };
 
-const fetchClient = async (authId: string): Promise<DatabaseAction> =>
-  await FetchClient(authId);
+const fetchClient = async (authId: string): Promise<DatabaseAction> => {
+  const uid = await mapAuthId(authId)
+  return await FetchClient(uid);
+}
+  
 
 export { insertUser, fetchClient, getUserProfile, mapAuthId };
