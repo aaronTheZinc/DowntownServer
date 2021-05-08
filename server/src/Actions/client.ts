@@ -38,23 +38,28 @@ const getUserProfile = async (authId: string): Promise<ClientProfile> => {
 !Mutates Current Book
 ? Bookmarked Feature
 */
-const AppendBookMark = async(authId: string, product: string): Promise<DatabaseAction> => {
-  const uid = await mapAuthId(authId)
-  const mutation: UserMutation = {uid: uid, entries: product }
+const AppendBookMark = async (
+  authId: string,
+  product: string
+): Promise<DatabaseAction> => {
+  const uid = await mapAuthId(authId);
+  const mutation: UserMutation = {
+    uid: uid,
+    entries: { key: "bookMarked", value: product },
+  };
   try {
     return await bookMark(mutation).then(() => {
       return {
-        didSucceed: true
-      } as DatabaseAction
-    })
-  }catch(e) {
+        didSucceed: true,
+      } as DatabaseAction;
+    });
+  } catch (e) {
     return {
-      didSucceed:false,
-      error: e
-    }
+      didSucceed: false,
+      error: e,
+    };
   }
-
-}
+};
 
 const fetchClient = async (authId: string): Promise<DatabaseAction> => {
   const uid = await mapAuthId(authId);

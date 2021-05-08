@@ -1,4 +1,7 @@
 export interface UserMutation {
     uid: string
-    entries: any
+    entries: {
+        key: string,
+        value: any
+    }
 }

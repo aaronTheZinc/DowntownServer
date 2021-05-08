@@ -22,7 +22,7 @@ router.get("/get_cart", async (req: Request, res: Response) => {
   try {
     if (isConnect) {
       const clientCart = await resolveCart(uid as string);
-      console.log(clientCart)
+      console.log(clientCart);
       res.json({ data: clientCart }).status(201);
     } else {
       res.json({
@@ -33,13 +33,13 @@ router.get("/get_cart", async (req: Request, res: Response) => {
   } catch (e) {
     return res.json({
       error: "An Error Occured!",
-      message: 'E',
+      message: "E",
     });
   }
 });
 
-router.get('/', (req: Request, res: Response) => {
-    res.json('Cart Route....')
-})
+router.get("/", (req: Request, res: Response) => {
+  res.json("Cart Route....");
+});
 
 export default router;

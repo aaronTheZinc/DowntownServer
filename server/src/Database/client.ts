@@ -113,12 +113,12 @@ const bookMark = async (
   try {
     const { data } = await fetchClient(uid);
     let { bookMarked } = data as Client;
-    bookMarked?.push(entries)
+    bookMarked?.push(entries.value);
 
     await getConnection()
       .createQueryBuilder()
       .update(User)
-      .set(entries)
+      .set({ [entries.key]: bookMarked })
       .where("id = :id", { id: uid })
       .execute();
     return {
