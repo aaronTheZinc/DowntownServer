@@ -44,12 +44,15 @@ router.post("/create_user", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/get_client", async (req: Request, res: Response) => {
+router.get("/get_user", async (req: Request, res: Response) => {
   const { uid } = req.query;
   const client = await fetchClient(uid as string);
-  res.json({
-    client: client,
-  });
+
+  client.error
+    ? res.json({ error: "An Error Ocurred!", message: "User Not Found" })
+    : res.json({
+        client: client,
+      });
 });
 
 router.post("/test", async (req: Request, res: Response) =>
@@ -59,9 +62,9 @@ router.post("/test", async (req: Request, res: Response) =>
 );
 
 router.get("/create_ephemeral", async (req: Request, res: Response) => {
-  const { uid } = req.query;
+  const { authId } = req.query;
   try {
-    const { didSucceed, data, err } = await generateEphimeral(uid as string);
+    const { didSucceed, data, err } = await generateEphimeral(authId as string);
 
     didSucceed
       ? res.json(data)
