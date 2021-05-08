@@ -1,7 +1,12 @@
 import { User } from "../entity/user";
-import type { Client, DatabaseAction, AppendShop } from "../models";
+import type {
+  Client,
+  DatabaseAction,
+  AppendShop,
+  UserMutation,
+} from "../models";
 import { shopExist } from "./shop";
-import { Connection, getRepository } from "typeorm";
+import { Connection, getRepository, getConnection } from "typeorm";
 import { createStripeUser } from "./operations";
 import { v4 as createUid } from "uuid";
 
@@ -19,7 +24,10 @@ const createUser = async (
   client.firstName = data.firstName;
   client.lastName = data.lastName;
   client.shop = data.shop;
-  client.purchased = new Array();
+  client.purchased = [
+    "d12a84fb-23b9-4fcd-a115-787da68f0989",
+    "64ecb07c-123b-45de-b916-aa5bd23bab03",
+  ];
   client.bookMarked = new Array();
   client.stripe = data.stripe;
   client.address = data.address;
@@ -44,14 +52,12 @@ const fetchClient = async (uid: string): Promise<DatabaseAction> => {
 
   const user = await userRepo
     .findOne({ where: { id: uid } })
-    .then((user) =>
-      user
-        ? ({
-            data: user,
-            didSucceed: true,
-          } as DatabaseAction)
-        : ({ error: "Account Not Found", didSucceed: false } as DatabaseAction)
-    )
+    .then((user) => {
+      return {
+        data: user,
+        didSucceed: true,
+      };
+    })
     .catch((err) => {
       return {
         error: err,
@@ -95,4 +101,35 @@ const bindShopToClient = async (
     didSucceed: true,
   };
 };
-export { createUser, fetchClient, mapAuthId, bindShopToClient };
+
+/*
+!Mutates User BookMarks
+? Can be used to update values in users book
+*/
+const bookMark = async (
+  mutationData: UserMutation
+): Promise<DatabaseAction> => {
+  const { uid, entries } = mutationData;
+  try {
+    const { data } = await fetchClient(uid);
+    let { bookMarked } = data as Client;
+    bookMarked?.push(entries)
+
+    await getConnection()
+      .createQueryBuilder()
+      .update(User)
+      .set(entries)
+      .where("id = :id", { id: uid })
+      .execute();
+    return {
+      didSucceed: true,
+      data: "Mutation Success",
+    };
+  } catch (e) {
+    return {
+      didSucceed: false,
+      error: e,
+    };
+  }
+};
+export { createUser, fetchClient, mapAuthId, bindShopToClient, bookMark };

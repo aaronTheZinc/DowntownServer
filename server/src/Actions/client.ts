@@ -1,34 +1,64 @@
 import { createUser, fetchClient as FetchClient } from "../Database/client";
 import { Connection } from "typeorm";
-import { Client, DatabaseAction, ClientProfile } from "../models";
+import { Client, DatabaseAction, ClientProfile, UserMutation } from "../models";
 import { getManyProducts } from "../Database/product";
 import { User } from "../entity/user";
-import { mapAuthId } from '../Database/client'
+import { mapAuthId, bookMark } from "../Database/client";
 
 const insertUser = async (
   connection: Connection,
   data: Client
 ): Promise<DatabaseAction> => await createUser(connection, data);
 
+/*
+!Mutates Current Book
+? Gets Users Profile 
+*/
 const getUserProfile = async (authId: string): Promise<ClientProfile> => {
-  const uuid = await mapAuthId(authId);
-  const queryUser = await fetchClient(uuid);
-  const { data } = queryUser.data;
-  const { purchased, bookMarked } = data as Client;
-  const purchasedResult = await getManyProducts(purchased!);
+  const queryUser = await fetchClient(authId);
+  const { data } = queryUser;
+  const { purchased, bookMarked, firstName, lastName } = data as Client;
+  const purchasedResultQuery: DatabaseAction = await getManyProducts(
+    purchased!
+  );
+  const purchasedResult = purchasedResultQuery.data as DatabaseAction[];
+  const purchasedList = purchasedResult.map((product) => product.data);
 
   return ({
-    purchased: purchasedResult,
+    firstName: firstName,
+    lastName: lastName,
+    purchased: purchasedList,
     purchasedCount: purchased?.length,
     bookmarkedCount: bookMarked?.length,
     account404: false,
   } as unknown) as ClientProfile;
 };
 
-const fetchClient = async (authId: string): Promise<DatabaseAction> => {
+/*
+!Mutates Current Book
+? Bookmarked Feature
+*/
+const AppendBookMark = async(authId: string, product: string): Promise<DatabaseAction> => {
   const uid = await mapAuthId(authId)
-  return await FetchClient(uid);
-}
-  
+  const mutation: UserMutation = {uid: uid, entries: product }
+  try {
+    return await bookMark(mutation).then(() => {
+      return {
+        didSucceed: true
+      } as DatabaseAction
+    })
+  }catch(e) {
+    return {
+      didSucceed:false,
+      error: e
+    }
+  }
 
-export { insertUser, fetchClient, getUserProfile, mapAuthId };
+}
+
+const fetchClient = async (authId: string): Promise<DatabaseAction> => {
+  const uid = await mapAuthId(authId);
+  return await FetchClient(uid);
+};
+
+export { insertUser, fetchClient, getUserProfile, mapAuthId, AppendBookMark };

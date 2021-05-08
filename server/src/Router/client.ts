@@ -1,9 +1,9 @@
 import express, { Router, Request, Response, NextFunction } from "express";
 import { Connection, createConnection } from "typeorm";
-import { insertUser, fetchClient } from "../Actions/client";
+import { insertUser, fetchClient, getUserProfile } from "../Actions/client";
 import { generateEphimeral } from "../Actions/stripe";
 import { isConnected } from "./middleware/middlewares";
-import { Client } from "../models";
+import { Client, ClientProfile } from "../models";
 import Database from "../Database/connect";
 
 const router = Router();
@@ -45,8 +45,8 @@ router.post("/create_user", async (req: Request, res: Response) => {
 });
 
 router.get("/get_user", async (req: Request, res: Response) => {
-  const { uid } = req.query;
-  const client = await fetchClient(uid as string);
+  const { authId } = req.query;
+  const client = await fetchClient(authId as string);
 
   client.error
     ? res.json({ error: "An Error Ocurred!", message: "User Not Found" })
@@ -83,4 +83,13 @@ router.post("/append_shop", (req: Request, res: Response) => {
   const { connection, isConnect } = Database.databaseConnection;
 });
 
+router.get("/user_profile", async (req: Request, res: Response) => {
+  const { authId } = req.query;
+
+  const Profile: ClientProfile = await getUserProfile(authId as string);
+
+  !Profile.account404
+    ? res.json({ profile: Profile })
+    : res.json({ error: "An Error Occured!", message: "User Not Found" });
+});
 export default router;
