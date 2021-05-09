@@ -142,7 +142,7 @@ router.get("/user_profile", async (req: Request, res: Response) => {
  * *Requires Authentication Id && Product Id
  * ? Binds A Shop To A User
  */
-router.post("/bookmark", async (req: Request, res: Response) => {
+router.get("/bookmark", async (req: Request, res: Response) => {
   const { authId, product } = req.query;
   
   authId || product? null: res.json({error: 'An Error Occured!', message: 'Must include AuthId and Product'})
