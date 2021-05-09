@@ -1,4 +1,8 @@
-import { createUser, fetchClient as FetchClient } from "../Database/client";
+import {
+  createUser,
+  fetchClient as FetchClient,
+  removeBookmark,
+} from "../Database/client";
 import { Connection } from "typeorm";
 import { Client, DatabaseAction, ClientProfile, UserMutation } from "../models";
 import { getManyProducts } from "../Database/product";
@@ -47,7 +51,6 @@ const AppendBookMark = async (
   await mutationHandler.authorization();
   const bookmarkExists = await mutationHandler.preventBookmarkMutation(product);
   const productExist = await mutationHandler.authenticateProduct(product);
-  console.log("previously bookmarked =>", bookmarkExists, productExist);
   if (bookmarkExists) {
     return {
       didSucceed: true,
@@ -74,9 +77,26 @@ const AppendBookMark = async (
   }
 };
 
+const RemoveBookmark = async (
+  product: string,
+  authId: string
+): Promise<DatabaseAction> => {
+  const uid = await mapAuthId(authId);
+  const removeRequest = await removeBookmark(product, uid);
+  
+    return removeRequest
+};
+
 const fetchClient = async (authId: string): Promise<DatabaseAction> => {
   const uid = await mapAuthId(authId);
   return await FetchClient(uid);
 };
 
-export { insertUser, fetchClient, getUserProfile, mapAuthId, AppendBookMark };
+export {
+  insertUser,
+  fetchClient,
+  getUserProfile,
+  mapAuthId,
+  AppendBookMark,
+  RemoveBookmark,
+};

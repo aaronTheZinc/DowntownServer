@@ -18,11 +18,8 @@ const isConnected = (req: Request, res: Response, next: NextFunction) => {
 };
 
 const authenticatedByAuthId = async(req: Request, res: Response, next: NextFunction)=> {
-  console.log('middleware call')
   const { authId } = req.query
-  console.log(authId)
   const isAuth = await validateUser(authId as string)
-  console.log(isAuth)
     isAuth? next(): res.json({error:'Authentication Failed.'})
 }
 export { isConnected, authenticatedByAuthId };

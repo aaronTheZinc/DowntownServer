@@ -5,11 +5,13 @@ import {
   fetchClient,
   getUserProfile,
   AppendBookMark,
+  RemoveBookmark
 } from "../Actions/client";
 import { generateEphimeral } from "../Actions/stripe";
 import { isConnected, authenticatedByAuthId } from "./middleware/middlewares";
 import { Client, ClientProfile } from "../models";
 import Database from "../Database/connect";
+
 
 const router = Router();
 
@@ -17,7 +19,10 @@ router.use(express.json());
 router.use((req: Request, res: Response, next: NextFunction) =>
   isConnected(req, res, next)
 );
-router.use(async(req: Request, res: Response, next: NextFunction) => await authenticatedByAuthId(req,res,next))
+router.use(
+  async (req: Request, res: Response, next: NextFunction) =>
+    await authenticatedByAuthId(req, res, next)
+);
 /*
 !GET
 ?Test EndPoint
@@ -140,25 +145,46 @@ router.get("/user_profile", async (req: Request, res: Response) => {
 /**
  * !GET
  * *Requires Authentication Id && Product Id
- * ? Binds A Shop To A User
+ * ? Appends Product To Bookmarks Section
  */
 router.get("/bookmark", async (req: Request, res: Response) => {
   const { authId, product } = req.query;
-  const test = authId as string
-  authId || product? null: res.json({error: 'An Error Occured!', message: 'Must include AuthId and Product'})
+  authId || product
+    ? null
+    : res.json({
+        error: "An Error Occured!",
+        message: "Must include AuthId and Product",
+      });
   // try {
-    await AppendBookMark(authId!.toString(), product!.toString()).then(
-      (result) => {
-        result.didSucceed
-          ? res.json(result)
-          : res.json({
-              error: "An Error Occured",
-              message: "Failed To Bookmark",
-            });
-      }
-    );
-  // } catch (e) {
-  //   res.json({ error: "An Error Occured", message: e });
-  // }
-});
+  await AppendBookMark(authId!.toString(), product!.toString()).then(
+    (result) => {
+      result.didSucceed
+        ? res.json(result)
+        : res.json({
+            error: "An Error Occured",
+            message: "Failed To Bookmark",
+          });
+    }
+  );
+})
+
+  router.get("/remove_bookmark", async (req: Request, res: Response) => {
+    const { authId, product } = req.query;
+    authId || product
+      ? null
+      : res.json({
+          error: "An Error Occured!",
+          message: "Must include AuthId and Product",
+        });
+
+     await RemoveBookmark(product?.toString()!, authId?.toString()!).then((result) => {
+      result.didSucceed
+      ? res.json(result)
+      : res.json({
+          error: "An Error Occured",
+          message: "Failed To Remove Bookmark",
+        });
+     })  
+  });
+
 export default router;

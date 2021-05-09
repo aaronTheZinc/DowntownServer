@@ -9,6 +9,7 @@ import { shopExist } from "./shop";
 import { Connection, getRepository, getConnection } from "typeorm";
 import { createStripeUser } from "./operations";
 import { v4 as createUid } from "uuid";
+import { runInNewContext } from "node:vm";
 
 // Insert New User
 const createUser = async (
@@ -24,10 +25,7 @@ const createUser = async (
   client.firstName = data.firstName;
   client.lastName = data.lastName;
   client.shop = data.shop;
-  client.purchased = [
-    "d12a84fb-23b9-4fcd-a115-787da68f0989",
-    "64ecb07c-123b-45de-b916-aa5bd23bab03",
-  ];
+  client.purchased = new Array();
   client.bookMarked = new Array();
   client.stripe = data.stripe;
   client.address = data.address;
@@ -132,4 +130,49 @@ const bookMark = async (
     };
   }
 };
-export { createUser, fetchClient, mapAuthId, bindShopToClient, bookMark };
+/**
+ * ! Mutates Bookmarked With Above Func
+ * ? Removes Bookmark
+ * @param product
+ * @param uid
+ */
+const removeBookmark = async (
+  product: string,
+  uid: string
+): Promise<DatabaseAction> => {
+  const { data } = await fetchClient(uid);
+  const { bookMarked } = data as Client;
+  const markedIndex = bookMarked?.indexOf(product);
+  if (markedIndex === -1) {
+    return {
+      didSucceed: false,
+      error: "Item Not Bookmarked!",
+    };
+  } else {
+    bookMarked?.splice(markedIndex!);
+    try {
+      await getConnection()
+      .createQueryBuilder()
+      .update(User)
+      .set({ 'bookMarked': bookMarked })
+      .where("id = :id", { id: uid })
+      .execute();
+      return {
+        didSucceed:true
+      }
+    } catch (e) {
+      return {
+        didSucceed: false,
+        error: e,
+      };
+    }
+  }
+};
+export {
+  createUser,
+  fetchClient,
+  mapAuthId,
+  bindShopToClient,
+  bookMark,
+  removeBookmark,
+};
