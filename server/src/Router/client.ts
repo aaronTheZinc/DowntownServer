@@ -106,11 +106,13 @@ router.get("/create_ephemeral", async (req: Request, res: Response) => {
     const { didSucceed, data, err } = await generateEphimeral(
       authId!.toString()
     );
+    console.log(err)
 
     didSucceed
       ? res.json(data)
       : res.json({ error: "An Error Occured!", message: err });
   } catch (e) {
+    console.log(e)
     return res.json({
       error: "An Error Occured!",
       message: e,

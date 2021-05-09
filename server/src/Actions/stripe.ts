@@ -5,14 +5,14 @@ import { getEphimeral } from "../stripe/index";
 import { fetchClient } from "./client";
 const generateEphimeral = async (authId: string): Promise<BasicResponse> => {
   try {
-    const uid: string = await mapAuthId(authId);
-    const { data: client } = await fetchClient(uid);
+    const { data } = await fetchClient(authId);
+    console.log(data)
     const {
       stripe: { stripe_cus },
-    } = client;
-    const ephim_key = await getEphimeral(stripe_cus);
+    } = data;
+    const ephem_key = await getEphimeral(stripe_cus);
 
-    return { data: ephim_key, didSucceed: true } as BasicResponse;
+    return { data:ephem_key, didSucceed: true } as BasicResponse;
   } catch (e) {
     return { didSucceed: false, err: e } as BasicResponse;
   }
