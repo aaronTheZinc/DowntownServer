@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from "express";
 import router from "./Router/bundler";
 import Database from "./Database/connect";
+
 const app: Application = express();
 
 const App = async () => {

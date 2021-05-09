@@ -4,6 +4,7 @@ import { Client, DatabaseAction, ClientProfile, UserMutation } from "../models";
 import { getManyProducts } from "../Database/product";
 import { User } from "../entity/user";
 import { mapAuthId, bookMark } from "../Database/client";
+import Mutation from "../classes/mutation";
 
 const insertUser = async (
   connection: Connection,
@@ -42,22 +43,32 @@ const AppendBookMark = async (
   authId: string,
   product: string
 ): Promise<DatabaseAction> => {
-  const uid = await mapAuthId(authId);
-  const mutation: UserMutation = {
-    uid: uid,
-    entries: { key: "bookMarked", value: product },
-  };
-  try {
-    return await bookMark(mutation).then(() => {
-      return {
-        didSucceed: true,
-      } as DatabaseAction;
-    });
-  } catch (e) {
+  const mutationHandler = new Mutation(authId);
+  await mutationHandler.authorization();
+  const bookmarkExists = await mutationHandler.preventBookmarkMutation(product);
+  if (bookmarkExists) {
     return {
-      didSucceed: false,
-      error: e,
+      didSucceed: true,
+      data: "Product Already Bookmarked!",
+    } as DatabaseAction;
+  } else {
+    const uid = await mapAuthId(authId);
+    const mutation: UserMutation = {
+      uid: uid,
+      entries: { key: "bookMarked", value: product },
     };
+    try {
+      return await bookMark(mutation).then(() => {
+        return {
+          didSucceed: true,
+        } as DatabaseAction;
+      });
+    } catch (e) {
+      return {
+        didSucceed: false,
+        error: e,
+      };
+    }
   }
 };
 

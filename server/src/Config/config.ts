@@ -20,7 +20,7 @@ export const DatabaseConfig = {
   password: process.env.DB_PASSWORD || "dXUrZEcVrYqn3j7wGAYAEveJGAy4LdZ3Tk2NX6r3YyBMTbuXNVpA4G3MerXpnaLV",
   database: process.env.DB_NAME || "downtown-db",
   synchronize: !process.env.DB_NO_SYNC,
-  logging: !process.env.DB_NO_LOGS,
+  logging: false,
   autoReconnect: true,
   reconnectTries: Number.MAX_VALUE,
   reconnectInterval: 2000,

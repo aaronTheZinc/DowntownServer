@@ -7,7 +7,7 @@ import {
   AppendBookMark,
 } from "../Actions/client";
 import { generateEphimeral } from "../Actions/stripe";
-import { isConnected } from "./middleware/middlewares";
+import { isConnected, authenticatedByAuthId } from "./middleware/middlewares";
 import { Client, ClientProfile } from "../models";
 import Database from "../Database/connect";
 
@@ -17,6 +17,7 @@ router.use(express.json());
 router.use((req: Request, res: Response, next: NextFunction) =>
   isConnected(req, res, next)
 );
+router.use(async(req: Request, res: Response, next: NextFunction) => await authenticatedByAuthId(req,res,next))
 /*
 !GET
 ?Test EndPoint
@@ -129,7 +130,6 @@ router.post("/bind_shop", (req: Request, res: Response) => {
  */
 router.get("/user_profile", async (req: Request, res: Response) => {
   const { authId } = req.query;
-
   const Profile: ClientProfile = await getUserProfile(authId!.toString());
 
   !Profile.account404
@@ -138,13 +138,13 @@ router.get("/user_profile", async (req: Request, res: Response) => {
 });
 
 /**
- * !POST
+ * !GET
  * *Requires Authentication Id && Product Id
  * ? Binds A Shop To A User
  */
 router.get("/bookmark", async (req: Request, res: Response) => {
   const { authId, product } = req.query;
-  
+  const test = authId as string
   authId || product? null: res.json({error: 'An Error Occured!', message: 'Must include AuthId and Product'})
   // try {
     await AppendBookMark(authId!.toString(), product!.toString()).then(
