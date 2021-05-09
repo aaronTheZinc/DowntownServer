@@ -34,7 +34,7 @@ class Mutation extends Verify {
       if (productExist) {
         const currentBookmarksQuery = await fetchClient(authId);
         const { bookMarked } = currentBookmarksQuery.data as Client;
-        return !bookMarked?.includes(product) ? true : false;
+        return bookMarked?.includes(product) ? true : false;
       } else {
         return false;
       }

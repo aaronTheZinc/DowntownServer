@@ -46,6 +46,8 @@ const AppendBookMark = async (
   const mutationHandler = new Mutation(authId);
   await mutationHandler.authorization();
   const bookmarkExists = await mutationHandler.preventBookmarkMutation(product);
+  const productExist = await mutationHandler.authenticateProduct(product);
+  console.log("previously bookmarked =>", bookmarkExists, productExist);
   if (bookmarkExists) {
     return {
       didSucceed: true,
