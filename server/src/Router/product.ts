@@ -10,7 +10,7 @@ import Database from "../Database/connect";
 import {} from "../Actions/products";
 import { Product } from "../entity/product";
 import path from "path";
-import { isConnected } from "./middleware/middlewares";
+import { isConnected } from "./middleware";
 
 const { connection, isConnect } = Database.databaseConnection;
 

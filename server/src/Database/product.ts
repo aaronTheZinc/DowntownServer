@@ -5,6 +5,13 @@ import { v4 as uuidv4 } from "uuid";
 import { DatabaseAction } from "../models/responseTypes";
 import { resolve } from "node:path";
 
+/**
+ * 
+ * @param product 
+ * @param uid 
+ * @param connection 
+ * @returns Database
+ */
 const createProduct = async (
   product: product,
   uid: string,
@@ -102,11 +109,10 @@ const getManyProducts = async (
           ? reject({ error: "Product Doesnt exist", message: result.error })
           : null
       );
-      resolve(productList);
+      resolve(productList.map(({data})=> data));
     });
 
     const Products = await gatherProducts.then((products) => products);
-    console.log("Products --", Products);
     return { didSucceed: true, data: Products } as DatabaseAction;
   } catch (err) {
     return { error: err, didSucceed: false } as DatabaseAction;

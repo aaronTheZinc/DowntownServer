@@ -8,7 +8,7 @@ import {
   RemoveBookmark
 } from "../Actions/client";
 import { generateEphimeral } from "../Actions/stripe";
-import { isConnected, authenticatedByAuthId } from "./middleware/middlewares";
+import { isConnected, authenticatedByAuthId } from "./middleware";
 import { Client, ClientProfile } from "../models";
 import Database from "../Database/connect";
 
