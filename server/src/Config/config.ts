@@ -1,6 +1,7 @@
 import {ConnectionOptions} from "typeorm";
 import { User } from '../entity/user'
 import { Product } from '../entity/product'
+import { Shop } from '../entity/shop'
 import path from "path";
 import * as dotenv from 'dotenv'
 import { publishableKey } from "../stripe/stripe";
@@ -19,14 +20,15 @@ export const DatabaseConfig = {
   username: process.env.DB_USERNAME || "downtown-admin",
   password: process.env.DB_PASSWORD || "dXUrZEcVrYqn3j7wGAYAEveJGAy4LdZ3Tk2NX6r3YyBMTbuXNVpA4G3MerXpnaLV",
   database: process.env.DB_NAME || "downtown-db",
-  synchronize: !process.env.DB_NO_SYNC,
+  synchronize: true,
   logging: false,
   autoReconnect: true,
   reconnectTries: Number.MAX_VALUE,
   reconnectInterval: 2000,
   entities: [
     User,
-    Product
+    Product,
+    Shop
   ],
   migrations: [
     `src/migration/**/*.${isCompiled ? "js" : "ts"}`

@@ -6,10 +6,10 @@ import { DatabaseAction } from "../models/responseTypes";
 import { resolve } from "node:path";
 
 /**
- * 
- * @param product 
- * @param uid 
- * @param connection 
+ *
+ * @param product
+ * @param uid
+ * @param connection
  * @returns Database
  */
 const createProduct = async (
@@ -45,7 +45,6 @@ const createProduct = async (
 // Fetch General Results Of Products
 
 const generateFeed = async (): Promise<ProductFeed> => {
-  console.log("Called!");
   let products = (await Product.getRepository()
     .createQueryBuilder()
     .select("Product")
@@ -109,7 +108,7 @@ const getManyProducts = async (
           ? reject({ error: "Product Doesnt exist", message: result.error })
           : null
       );
-      resolve(productList.map(({data})=> data));
+      resolve(productList.map(({ data }) => data));
     });
 
     const Products = await gatherProducts.then((products) => products);
@@ -119,3 +118,7 @@ const getManyProducts = async (
   }
 };
 export { createProduct, generateFeed, getOneProduct, getManyProducts };
+// router.use(
+//   async (req: Request, res: Response, next: NextFunction) =>
+//     await authenticatedByAuthId(req, res, next)
+// );

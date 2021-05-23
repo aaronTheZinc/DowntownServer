@@ -74,11 +74,19 @@ import {
       zip: string;
     };
   }
+  export interface ShopLite {
+    title: string
+    profileImageUrl: string
+  }
   
   // Interactives
   export interface ProductFeed {
     authored: number;
     feed: ProductLite[];
+  }
+  export interface ShopFeed {
+    authored: number
+    feed: ShopLite[]
   }
   
   // Under the hood

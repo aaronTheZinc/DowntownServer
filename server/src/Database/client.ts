@@ -87,15 +87,22 @@ const mapAuthId = async (authId: string): Promise<string> => {
 // Binds Shop To Client
 const bindShopToClient = async (
   authId: string,
-  shopName: string
+  shopId: string
 ): Promise<DatabaseAction> => {
   const uuid = await mapAuthId(authId);
-  const shopIsValid = await shopExist(shopName);
+  const shopIsValid = await shopExist(shopId);
+  const uid = await mapAuthId(authId)
   if (shopIsValid) {
+    await getConnection()
+    .createQueryBuilder()
+    .update(User)
+    .set({ shop: shopId })
+    .where("id = :id", { id: uid })
+    .execute();
   }
   const client = await fetchClient(uuid);
   return {
-    data: {},
+  data: client,
     didSucceed: true,
   };
 };

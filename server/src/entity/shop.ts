@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 
 @Entity()
 export class Shop extends BaseEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id!: string;
   @Column()
   title!: string;
@@ -21,5 +21,6 @@ export class Shop extends BaseEntity {
 
   @Column()
   availableBal!: number
+
 
 }

@@ -1,3 +1,4 @@
 import { mapAuthId } from '../Database/client'
+import { getOneShop, createShop} from '../Database/shop'
 
-export {mapAuthId}
+export {mapAuthId, getOneShop, createShop}
