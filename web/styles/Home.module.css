@@ -6,6 +6,29 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-image: url(/home-background.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+
+
+
+
+
+}
+
+.logo {
+  width: 1000px;
+  height: 1000px;
+  background-image: url(/dtlogo.png);
+}
+
+.backgroundImage {
+  width: 100vw;
+  height: 100vh;
+
+  background-image: url(/home-background.jpg);
+  filter: blur(8px);
+  -webkit-filter: blur(5px);
 }
 
 .main {
