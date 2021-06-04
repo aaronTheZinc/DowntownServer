@@ -1,0 +1,14 @@
+@font-face {
+    font-family:MontserratEB;
+    src: url(./fonts/Montserrat-ExtraBold.ttf);
+}
+@font-face {
+    font-family:MontserratR;
+    src: url(./fonts/Montserrat-Regular.ttf);
+}
+.MontserratEB {
+    font-family: MontserratEB;
+}
+.MontserratR{
+    font-family: MontserratR;
+}

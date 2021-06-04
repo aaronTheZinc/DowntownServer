@@ -1,8 +1,19 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import fonts from "../styles/Fonts.module.css";
 import Image from "next/image";
+import { HomePageContent,  AuthNav } from './components'
+import { useEffect, useState } from "react";
 
 export default function Home() {
+
+  const [didLoad, setDidload] = useState<boolean>(false)
+
+    useEffect(() => {
+      setTimeout(() => {
+        // setDidload(true)
+      }, 3000)
+    }, [])
   return (
     <div className={styles.container}>
       <Head>
@@ -11,9 +22,23 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        <div></div>
-      <Image src="/logo.png" width={700} height={700} />
+        <div>
+          <div>
+            <div className="flex w-screen sm:justify-center xl:justify-end ">
+              <AuthNav firstName="Aaron" id=""/>
+            </div>
+          </div>
+        </div>
+        <div className="transform rotate-90 ..."></div>
+        <div className="flex justify-center">
+          <div>
+          {
+            didLoad? <HomePageContent/>: <Image src="/logo.png" width={700} height={700} />
+          }
+          
+        </div>
       </div>
+    </div>
     </div>
   );
 }
