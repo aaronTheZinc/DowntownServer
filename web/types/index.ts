@@ -1,1 +1,1 @@
-export type { AuthNavProps } from './props'
+export type { AuthNavProps, SearchBarProps, HomePage } from './props'

@@ -1,7 +1,9 @@
-export const HomePageContent  = (): JSX.Element => {
+export const HomePageContent  = ({  }): JSX.Element => {
     return (
-        <div className=" min-h-full">
-            <h1 className="text-white">Hello Content!</h1>
+        <div className=" pt-36 min-h-full">
+            <div>
+                
+            </div>
         </div>
     )
 }
