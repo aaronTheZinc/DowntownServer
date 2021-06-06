@@ -11,8 +11,10 @@ services:
       - ../../pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-  web:
-    image: server
+  server:
+    build:
+      context: ./server
+      dockerfile: dockerfile
     environment:
       - DB_NAME=downtown-db
       - DB_HOST=db
@@ -23,3 +25,9 @@ services:
     restart: always
     ports:
       - "4000:5000"
+  website:
+    build:
+      context: ./web
+      dockerfile: dockerfile 
+    ports:
+      - "3000:3000"          
